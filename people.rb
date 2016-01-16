@@ -2,6 +2,10 @@ class Name
   def initialize (name)
     @name = name
   end
+
+  def greeting
+    puts "Hi My name is #{@name}"
+  end
 end
 
 class Student < Name
