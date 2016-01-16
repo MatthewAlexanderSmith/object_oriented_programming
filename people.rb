@@ -4,4 +4,5 @@ class Student
 end
 
 class Instructor
+  puts "Everything in Ruby is an object"
 end
