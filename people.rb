@@ -19,3 +19,11 @@ class Instructor < Name
     puts "Everything in Ruby is an object"
   end
 end
+
+#Question 6
+chris = Instructor.new("Chris")
+chris.greeting
+
+#Question 7
+christina = Student.new("Christina")
+christina.greeting
