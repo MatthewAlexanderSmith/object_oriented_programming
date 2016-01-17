@@ -1,3 +1,95 @@
+#The size of the plateau is constant
+#Therefore assign the size of the plateau to a constant.
+puts "Please enter the size of the plateau (x y)"
+PLATEAU = gets.split(" ")
+puts ""
+#puts "#{PLATEAU[0]} #{PLATEAU[1]}\n\r"
+
+puts "Please enter the present location and facing orientation
+of Rover 1 (x  y orientation)"
+rover_start_input = gets.chomp.split(" ")
+rover1 = Rover.new(y = "#{rover_start_input[0]}", x = "#{rover_start_input[1]}", orient = "#{rover_start_input[2]}" )
+
+puts "Please enter the present location and facing orientation
+of Rover 2 (x  y orientation)"
+rover_start_input = gets.chomp.split(" ")
+rover2 = Rover.new(y = "#{rover_start_input[0]}", x = "#{rover_start_input[1]}", orient = "#{rover_start_input[2]}" )
+
+p rover1.instance_variable_get(:@location)
+p rover2.instance_variable_get(:@location)
+
+class Rover
+
+  # attr_accessor :x, :y, :orient
+
+  def initialize(x, y, orient)
+    @x = x.to_i
+    @y = y.to_i
+    @orient = orient
+    self.read_instruction
+  end
+
+  def read_instruction
+
+    puts "Please enter movement instructions for the Rover
+    any combination of L,R and M without spaces"
+    rover_instruct = gets.chomp.split("")
+    #puts "#{@rover_instruct}" #Monitor Intructions
+    rover_instruct.each do |i|
+      i = i.upcase
+      if i == "L"
+        turn(i)
+      elsif i == "R"
+        turn(i)
+      elsif i == "M"
+        move
+      else
+        puts "only accepts L, R, or M"
+      end
+      # self.new_location
+    end
+    self.new_location
+  end
+
+  def move
+    if @orient == "N"
+        @y += 1
+    elsif @orient == "E"
+        @x += 1
+    elsif @orient == "S"
+        @y -= 1
+    elsif @orient == "W"
+        @x -= 1
+    end
+  end
+
+  def turn(i)
+    if (i == "L") && (@orient == "N")
+        @orient = "W"
+    elsif (i == "L") && (@orient == "W")
+        @orient = "S"
+    elsif (i == "L") && (@orient == "S")
+        @orient = "E"
+    elsif (i == "L") && (@orient == "E")
+        @orient = "N"
+    elsif (i == "R") && (@orient == "N")
+        @orient = "E"
+    elsif (i == "R") && (@orient == "E")
+        @orient = "S"
+    elsif (i == "R") && (@orient == "S")
+        @orient = "W"
+    elsif (i == "R") && (@orient == "W")
+        @orient = "N"
+    end
+  end
+
+  def new_location
+    @location = "#{@x} #{@y} #{@orient}"
+  end
+end
+
+
+################################################################################
 # I/O MAPPING
 # INPUTS
 # 1. plateau_size
@@ -25,124 +117,6 @@
 #
 # 2. rover2_pos_finish
 #     Co-ordiantes of rover 1 after executing the instruct commands
-#
-
-class Rover
-  def initialize(x, y, orient)
-    # puts "#{x} #{y} #{orient}"
-    @x = x.to_i
-    @y = y.to_i
-    @orient = orient
-
-    rover_start = {
-    :x      => @x,
-    :y      => @y,
-    :orient => @orient
-    }
-
-    puts "Please enter movement instructions for the Rover
-    # any combination of L,R and M without spaces"
-    @rover_instruct = gets.chomp.split("")
-    puts "#{@rover_instruct}"
-    self.read_instruction(@rover_instruct)
-  end
-
-  # attr_accessor :x, :y, :orient
-
-#SETTING PROGRAM INPUTS
-#The size of the plateau is constant
-#Therefore assign the size of the plateau to a constant.
-  # puts "Please enter the size of the plateau (x y)"
-  # PLATEAU = gets.chomp.split(" ")
-  # puts "#{PLATEAU}"
-  # PLATEAU.each { |i| puts i }
-  #
-  # puts "Please enter the present location and facing orientation
-  # of the Rover (x  y orientation)"
-  # rover_start_input = gets.chomp.split(" ")
-  # puts "#{@x} #{@y} #{@orient}"
-  # @x = 20
-  # @y = 30
-  # @orient = "N"
-
-    def read_instruction(rover_instruct)
-        puts "read_instruction method being called"
-
-      rover_instruct.each do |i|
-        i.upcase
-        if i == "L"
-          turn(i)
-        elsif i == "R"
-          turn(i)
-        elsif i == "M"
-          move(i)
-        else
-          puts "only accepts L, R, or M"
-        end
-        self.new_location
-      end
-    end
-
-    def move(i)
-      if    (i == "M") && (@orient == "N")
-              @y += 1
-      elsif (i == "M") && (@orient == "E")
-              @x += 1
-      elsif (i == "M") && (@orient == "S")
-              @y -= 1
-      elsif (i == "M") && (@orient == "W")
-              @x -= 1
-      end
-    end
-
-  def turn(i)
-    if (i == "L") && (@orient == "N")
-          @orient = "W"
-      elsif (i == "L") && (@orient == "W")
-          @orient = "S"
-      elsif (i == "L") && (@orient == "S")
-          @orient = "E"
-      elsif (i == "L") && (@orient == "E")
-          @orient = "N"
-      elsif (i == "R") && (@orient == "N")
-          @orient = "E"
-      elsif (i == "R") && (@orient == "E")
-          @orient = "S"
-      elsif (i == "R") && (@orient == "S")
-          @orient = "W"
-      elsif (i == "R") && (@orient == "W")
-          @orient = "N"
-    end
-  end
-
-  def new_location
-    puts "#{@x}, #{@y}, #{@orient}"
-  end
-
-end
-#When instantiating a new Rover Class
-#Pass the present location of the Rover
-#To the method .new
-
-puts "Please enter the present location and facing orientation
-of the Rover 1 (x  y orientation)"
-rover_start_input = gets.chomp.split(" ")
-rover1 = Rover.new(y = "#{rover_start_input[0]}", x = "#{rover_start_input[1]}", orient = "#{rover_start_input[2]}" )
-# rover2 = Rover.new(3,4,"N")
-
-
-
-
-  # puts "Please enter the present location and facing orientation
-  # of Rover 2 (x, y, (N,S,E, or W))"
-  # rover2_pos_start = gets.chomp.split(" ")
-  # puts "#{rover2_pos_start}"
-  #
-  # puts "Please enter movement instructions for Rover 2
-  # any combination of L,R and M without spaces"
-  # rover2_instruct = gets.chomp.split(" ")
-  # puts "#{rover2_instruct}"
-
 
 
 # puts "The final position of Rover 1 is #{rover1_pos_finish}"
@@ -231,5 +205,10 @@ rover1 = Rover.new(y = "#{rover_start_input[0]}", x = "#{rover_start_input[1]}",
     # rover_instruct do |i|
     #   puts "#{rover_instruct[i]}"
     # end
-    #
-    #
+
+
+    # rover_start = {
+    # :x      => @x,
+    # :y      => @y,
+    # :orient => @orient
+    # }
