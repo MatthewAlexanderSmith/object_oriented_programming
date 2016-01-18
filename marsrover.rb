@@ -1,26 +1,6 @@
-#The size of the plateau is constant
-#Therefore assign the size of the plateau to a constant.
-puts "Please enter the size of the plateau (x y)"
-PLATEAU = gets.split(" ")
-puts ""
-#puts "#{PLATEAU[0]} #{PLATEAU[1]}\n\r"
-
-puts "Please enter the present location and facing orientation
-of Rover 1 (x  y orientation)"
-rover_start_input = gets.chomp.split(" ")
-rover1 = Rover.new(y = "#{rover_start_input[0]}", x = "#{rover_start_input[1]}", orient = "#{rover_start_input[2]}" )
-
-puts "Please enter the present location and facing orientation
-of Rover 2 (x  y orientation)"
-rover_start_input = gets.chomp.split(" ")
-rover2 = Rover.new(y = "#{rover_start_input[0]}", x = "#{rover_start_input[1]}", orient = "#{rover_start_input[2]}" )
-
-p rover1.instance_variable_get(:@location)
-p rover2.instance_variable_get(:@location)
-
 class Rover
 
-  # attr_accessor :x, :y, :orient
+  attr_accessor :x, :y, :orient, :location
 
   def initialize(x, y, orient)
     @x = x.to_i
@@ -30,9 +10,7 @@ class Rover
   end
 
   def read_instruction
-
-    puts "Please enter movement instructions for the Rover
-    any combination of L,R and M without spaces"
+    p "Please enter movement instructions for the Rover any combination of L,R and M without spaces"
     rover_instruct = gets.chomp.split("")
     #puts "#{@rover_instruct}" #Monitor Intructions
     rover_instruct.each do |i|
@@ -44,7 +22,7 @@ class Rover
       elsif i == "M"
         move
       else
-        puts "only accepts L, R, or M"
+        p "only accepts L, R, or M"
       end
       # self.new_location
     end
@@ -63,23 +41,27 @@ class Rover
     end
   end
 
-  def turn(i)
-    if (i == "L") && (@orient == "N")
-        @orient = "W"
-    elsif (i == "L") && (@orient == "W")
-        @orient = "S"
-    elsif (i == "L") && (@orient == "S")
-        @orient = "E"
-    elsif (i == "L") && (@orient == "E")
-        @orient = "N"
-    elsif (i == "R") && (@orient == "N")
-        @orient = "E"
-    elsif (i == "R") && (@orient == "E")
-        @orient = "S"
-    elsif (i == "R") && (@orient == "S")
-        @orient = "W"
-    elsif (i == "R") && (@orient == "W")
-        @orient = "N"
+  def turn(direction)
+    #See 'Alternate Turn Code' in end notes
+    #Rotate method
+    #Array is class level variable I.E @@compass
+    case direction
+    when "L"
+      if @orient == "N"
+        @orient == "W"
+      elsif @orient == "W"
+        @orient == "S"
+      elsif @orient == "S"
+        @orient == "E"
+      end
+    when "R"
+      if @orient == "N"
+        @orient == "E"
+      elsif @orient == "E"
+        @orient == "S"
+      elsif @orient == "S"
+        @orient == "W"
+      end
     end
   end
 
@@ -88,6 +70,20 @@ class Rover
   end
 end
 
+p "Please enter the size of the plateau (x y)"
+PLATEAU = gets.split(" ")
+puts ""
+
+p "Please enter the present location and facing orientation of Rover 1 (x  y orientation)"
+rover_start_input = gets.chomp.split(" ")
+rover1 = Rover.new(y = "#{rover_start_input[0]}", x = "#{rover_start_input[1]}", orient = "#{rover_start_input[2]}" )
+
+p "Please enter the present location and facing orientation of Rover 2 (x  y orientation)"
+rover_start_input = gets.chomp.split(" ")
+rover2 = Rover.new(y = "#{rover_start_input[0]}", x = "#{rover_start_input[1]}", orient = "#{rover_start_input[2]}" )
+
+p rover1.location
+p rover2.location
 
 ################################################################################
 # I/O MAPPING
@@ -122,12 +118,29 @@ end
 # puts "The final position of Rover 1 is #{rover1_pos_finish}"
 # puts "The final position of Rover 1 is #{rover2_pos_finish}"
 
-
-
 # rover_start.each do |k, v|
 #     puts "#{k} #{v}"
 # end
 
+#Alternate turn code
+    # if (i == "L") && (@orient == "N")
+    #     @orient = "W"
+    # elsif (i == "L") && (@orient == "W")
+    #     @orient = "S"
+    # elsif (i == "L") && (@orient == "S")
+    #     @orient = "E"
+    # elsif (i == "L") && (@orient == "E")
+    #     @orient = "N"
+    # elsif (i == "R") && (@orient == "N")
+    #     @orient = "E"
+    # elsif (i == "R") && (@orient == "E")
+    #     @orient = "S"
+    # elsif (i == "R") && (@orient == "S")
+    #     @orient = "W"
+    # elsif (i == "R") && (@orient == "W")
+    #     @orient = "N"
+    # end
+#End of alternate turn code
 
 #THIS IS ONE WORKING SOLUTION#
     # rover_instruct.each do |i|
